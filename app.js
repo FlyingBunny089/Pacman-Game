@@ -433,7 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
     0,
     1,
     1,
-    5,
+    1,
     1,
     1,
     1,
@@ -461,7 +461,7 @@ document.addEventListener("DOMContentLoaded", () => {
     0,
     1,
     1,
-    5,
+    1,
     1,
     1,
     1,
@@ -489,13 +489,13 @@ document.addEventListener("DOMContentLoaded", () => {
     0,
     0,
     0,
-    5,
+    4,
+    4,
+    4,
     4,
     5,
     4,
-    5,
     4,
-    5,
     4,
     4,
     5,
@@ -604,6 +604,19 @@ document.addEventListener("DOMContentLoaded", () => {
     0,
     1,
     1,
+    5,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
     1,
     1,
     1,
@@ -623,19 +636,6 @@ document.addEventListener("DOMContentLoaded", () => {
     1,
     1,
     1,
-    0,
-    1,
-    1,
-    0,
-    1,
-    1,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
     1,
     1,
     0,
@@ -648,7 +648,7 @@ document.addEventListener("DOMContentLoaded", () => {
     1,
     1,
     1,
-    1,
+    5,
     0,
     0,
     0,
@@ -991,7 +991,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       scoreDisplay.innerHTML = score;
       squares[pacmanCurrentIndex].classList.remove("pac-dot");
-      checkForWin();
+      checkGameComplete();
     }
   }
 
@@ -1002,7 +1002,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ghosts.forEach((ghost) => (ghost.isScared = true));
       setTimeout(unScareGhosts, 10000);
       squares[pacmanCurrentIndex].classList.remove("power-pellet");
-      checkForWin();
+      checkGameComplete();
     }
   }
 
@@ -1016,7 +1016,7 @@ document.addEventListener("DOMContentLoaded", () => {
         pacmanCurrentIndex = Math.floor(Math.random() * (squares.length-1));
       }
       squares[pacmanCurrentIndex].classList.add("pac-dot");
-      checkForWin();
+      checkGameComplete();
     }
   }
 
@@ -1109,6 +1109,33 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.reload();
       }, 3000);
     }
+  }
+
+
+  //check for a win - more is when this score is reached
+  function checkGameComplete() {
+    for(var i = 0; i < squares.length; i++){
+      if (squares[i].classList.contains("pac-dot")) {
+        return false;
+      } else if (squares[i].classList.contains("wall")) {
+        continue;
+      } else if (squares[i].classList.contains("ghost-lair")) {
+        continue
+      } else if (squares[i].classList.contains("power-pellet")) {
+        return false;
+      } else if (squares[i].classList.contains("transport")) {
+        return false;
+      }
+    }
+    ghosts.forEach((ghost) => clearInterval(ghost.timerId));
+    document.removeEventListener("keyup", movePacman);
+    pacmanVelocity.x = 0;
+    pacmanVelocity.y = 0;
+    //display you won screen and refresh after 3s to rest game
+    document.getElementById("you-won-screen").style.display = "flex";
+    setTimeout(function () {
+      window.location.reload();
+    }, 3000);
   }
 
   //check for a win - more is when this score is reached
