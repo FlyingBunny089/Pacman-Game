@@ -807,7 +807,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       //add layout to the board
       if (layout[i] === 0) {
-        squares[i].classList.add("pac-dot");
+          squares[i].classList.add("pac-dot");
       } else if (layout[i] === 1) {
         squares[i].classList.add("wall");
       } else if (layout[i] === 2) {
@@ -1012,7 +1012,7 @@ document.addEventListener("DOMContentLoaded", () => {
       squares[pacmanCurrentIndex].classList.remove("pac-dot");
       squares[pacmanCurrentIndex].classList.remove("transport");
       pacmanCurrentIndex = Math.floor(Math.random() * (squares.length-1));
-      while(!squares[pacmanCurrentIndex].classList.contains("wall")){
+      while(squares[pacmanCurrentIndex].classList.contains("wall")){
         pacmanCurrentIndex = Math.floor(Math.random() * (squares.length-1));
       }
       squares[pacmanCurrentIndex].classList.add("pac-dot");
