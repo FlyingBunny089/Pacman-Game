@@ -46,6 +46,14 @@ body {
   border-radius: 10px;
 }
 
+
+.transport {
+  background-color: rgb(55, 88, 21);
+  border: solid black 4px;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
 .pac-dot {
   background-color: yellow;
   border: solid black 7px;

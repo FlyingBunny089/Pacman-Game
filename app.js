@@ -294,13 +294,13 @@ document.addEventListener("DOMContentLoaded", () => {
     1,
     1,
     4,
+    5,
     4,
+    5,
     4,
+    5,
     4,
-    4,
-    4,
-    4,
-    4,
+    5,
     4,
     4,
     1,
@@ -330,7 +330,7 @@ document.addEventListener("DOMContentLoaded", () => {
     1,
     1,
     1,
-    4,
+    5,
     1,
     1,
     0,
@@ -369,7 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
     1,
     1,
     4,
-    4,
+    5,
     4,
     4,
     4,
@@ -377,7 +377,7 @@ document.addEventListener("DOMContentLoaded", () => {
     0,
     0,
     0,
-    4,
+    5,
     1,
     2,
     2,
@@ -433,7 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
     0,
     1,
     1,
-    4,
+    5,
     1,
     1,
     1,
@@ -461,7 +461,7 @@ document.addEventListener("DOMContentLoaded", () => {
     0,
     1,
     1,
-    4,
+    5,
     1,
     1,
     1,
@@ -489,16 +489,16 @@ document.addEventListener("DOMContentLoaded", () => {
     0,
     0,
     0,
+    5,
+    4,
+    5,
+    4,
+    5,
+    4,
+    5,
     4,
     4,
-    4,
-    4,
-    4,
-    4,
-    4,
-    4,
-    4,
-    4,
+    5,
     0,
     0,
     0,
@@ -794,6 +794,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2 - ghost-lair
   // 3 - power-pellet
   // 4 - empty
+  // 5 - transport
 
   const squares = [];
 
@@ -813,6 +814,8 @@ document.addEventListener("DOMContentLoaded", () => {
         squares[i].classList.add("ghost-lair");
       } else if (layout[i] === 3) {
         squares[i].classList.add("power-pellet");
+      } else if (layout[i] === 5) {
+        squares[i].classList.add("transport");
       }
     }
   }
@@ -939,11 +942,44 @@ document.addEventListener("DOMContentLoaded", () => {
       squares[pacmanCurrentIndex].classList.add("pac-man");
       pacDotEaten();
       powerPelletEaten();
+      transportPelletEaten();
     }, pacmanSpeed);
+  }
+
+  function removeWall() {
+    var itemIndex = Math.floor(Math.random()*squares.length);
+    if (squares[itemIndex].classList.contains("wall")) {
+      squares[itemIndex].classList.remove("wall");
+    }
+  }
+
+  function removeWallAddPacDot() {
+    var itemIndex = Math.floor(Math.random()*squares.length);
+    if (squares[itemIndex].classList.contains("wall")) {
+      squares[itemIndex].classList.remove("wall");
+      squares[itemIndex].classList.add("pac-dot");
+    }
+  }
+
+  function addWall() {
+    let finished = false;
+    while(!finished){
+      var itemIndex = Math.floor(Math.random()*squares.length);
+      if (squares[itemIndex].classList.contains("pac-dot")) {
+        squares[itemIndex].classList.remove("pac-dot");
+        squares[itemIndex].classList.add("wall");
+        finished = true;
+      }
+    }
   }
 
   // what happens when you eat a pac-dot
   function pacDotEaten() {
+    // removeWall();
+    // removeWall();
+    // removeWall();
+    // addWall();
+
     if (squares[pacmanCurrentIndex].classList.contains("pac-dot")) {
       score++;
       if (score < 50) {
@@ -959,13 +995,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  //what happens when you eat a power-pellet
+  // what happens when you eat a power-pellet
   function powerPelletEaten() {
     if (squares[pacmanCurrentIndex].classList.contains("power-pellet")) {
       score += 10;
       ghosts.forEach((ghost) => (ghost.isScared = true));
       setTimeout(unScareGhosts, 10000);
       squares[pacmanCurrentIndex].classList.remove("power-pellet");
+      checkForWin();
+    }
+  }
+
+  // what happens when you eat a transport pellet
+  function transportPelletEaten() {
+    if (squares[pacmanCurrentIndex].classList.contains("transport")) {
+      squares[pacmanCurrentIndex].classList.remove("pac-dot");
+      squares[pacmanCurrentIndex].classList.remove("transport");
+      pacmanCurrentIndex = Math.floor(Math.random() * (squares.length-1));
+      while(!squares[pacmanCurrentIndex].classList.contains("wall")){
+        pacmanCurrentIndex = Math.floor(Math.random() * (squares.length-1));
+      }
+      squares[pacmanCurrentIndex].classList.add("pac-dot");
       checkForWin();
     }
   }
