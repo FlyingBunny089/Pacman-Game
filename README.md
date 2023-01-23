@@ -3,6 +3,19 @@
 PacmanJs is a Javascript, HTML and CSS based game that enable you to play with the most charismatic 80's character ever created.
 
 
+Types of items 
+
+  // 0 - pac-dots
+  // 1 - wall
+  // 2 - ghost-lair
+  // 3 - power-pellet
+  // 4 - empty
+  // 5 - transport
+
+  Transport pellets will transport your pacman to a new location.
+  To win the game collect all pac-dots, power-pellet, transport pellets, and old pacman shells left by using the transport pellets.
+
+
 ## How to start :triangular_flag_on_post:
 <img src="https://github.com/bhavesh1129/Pacman-Game/blob/master/PacmanImage.PNG" width="600" height="500">
 
